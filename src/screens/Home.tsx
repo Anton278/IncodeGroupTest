@@ -1,23 +1,16 @@
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {View, ScrollView, StyleSheet} from 'react-native';
-import {
-  Surface,
-  Card,
-  Text,
-  Button,
-  IconButton,
-  DataTable,
-} from 'react-native-paper';
+import {View, StyleSheet} from 'react-native';
+import {Text, Button} from 'react-native-paper';
 
-function HomeScreen({navigation}: any) {
+import PageContainer from '../components/PageContainer';
+import Favourites from '../components/Favourites';
+import Card from '../components/Card';
+import Pagination from '../components/Pagination';
+
+function HomeScreen() {
   return (
     <SafeAreaView style={{flex: 1}}>
-      <ScrollView
-        style={styles.container}
-        contentContainerStyle={{
-          paddingVertical: 10,
-          paddingHorizontal: 10,
-        }}>
+      <PageContainer>
         <View style={styles.topBar}>
           <Text variant="headlineMedium">Favourites</Text>
           <Button
@@ -27,111 +20,56 @@ function HomeScreen({navigation}: any) {
             Clear favourites
           </Button>
         </View>
-        <View style={styles.favBoxes}>
-          <Surface style={styles.favBox}>
-            <Text variant="titleLarge">0</Text>
-            <Text variant="bodyMedium">Female favs</Text>
-          </Surface>
-          <Surface style={styles.favBox}>
-            <Text variant="titleLarge">0</Text>
-            <Text variant="bodyMedium">Male favs</Text>
-          </Surface>
-          <Surface style={styles.favBox}>
-            <Text variant="titleLarge">0</Text>
-            <Text variant="bodyMedium">Others</Text>
-          </Surface>
-        </View>
+        <Favourites />
         <View style={styles.cardsContainer}>
-          <Card style={{backgroundColor: '#fff'}}>
-            <Card.Title title="Luke Skywalker" />
-            <Card.Content>
-              <Text variant="bodyMedium">Birth year: 19BBY</Text>
-              <Text variant="bodyMedium">Gender: male</Text>
-              <Text variant="bodyMedium">Species: -</Text>
-            </Card.Content>
-            <Card.Actions>
-              <Button
-                mode="outlined"
-                onPress={() => navigation.navigate('Character')}>
-                Read more
-              </Button>
-              <IconButton mode="contained" icon="heart" iconColor={'#fff'} />
-            </Card.Actions>
-          </Card>
-          <Card style={{backgroundColor: '#fff'}}>
-            <Card.Title title="Luke Skywalker" />
-            <Card.Content>
-              <Text variant="bodyMedium">Birth year: 19BBY</Text>
-              <Text variant="bodyMedium">Gender: male</Text>
-              <Text variant="bodyMedium">Species: -</Text>
-            </Card.Content>
-            <Card.Actions>
-              <Button mode="outlined">Read more</Button>
-              <IconButton mode="contained" icon="heart" iconColor={'#fff'} />
-            </Card.Actions>
-          </Card>
-          <Card style={{backgroundColor: '#fff'}}>
-            <Card.Title title="Luke Skywalker" />
-            <Card.Content>
-              <Text variant="bodyMedium">Birth year: 19BBY</Text>
-              <Text variant="bodyMedium">Gender: male</Text>
-              <Text variant="bodyMedium">Species: -</Text>
-            </Card.Content>
-            <Card.Actions>
-              <Button mode="outlined">Read more</Button>
-              <IconButton mode="contained" icon="heart" iconColor={'#fff'} />
-            </Card.Actions>
-          </Card>
-          <Card style={{backgroundColor: '#fff'}}>
-            <Card.Title title="Luke Skywalker" />
-            <Card.Content>
-              <Text variant="bodyMedium">Birth year: 19BBY</Text>
-              <Text variant="bodyMedium">Gender: male</Text>
-              <Text variant="bodyMedium">Species: -</Text>
-            </Card.Content>
-            <Card.Actions>
-              <Button mode="outlined">Read more</Button>
-              <IconButton mode="contained" icon="heart" iconColor={'#fff'} />
-            </Card.Actions>
-          </Card>
+          <Card
+            characterName="Luke Skywalker"
+            characterBirthYear="19 BBY"
+            characerGender="male"
+            characterSpecies={[]}
+            characterUrl=""
+          />
+          <Card
+            characterName="Luke Skywalker"
+            characterBirthYear="19 BBY"
+            characerGender="male"
+            characterSpecies={[]}
+            characterUrl=""
+          />
+          <Card
+            characterName="Luke Skywalker"
+            characterBirthYear="19 BBY"
+            characerGender="male"
+            characterSpecies={[]}
+            characterUrl=""
+          />
+          <Card
+            characterName="Luke Skywalker"
+            characterBirthYear="19 BBY"
+            characerGender="male"
+            characterSpecies={[]}
+            characterUrl=""
+          />
         </View>
         <View style={styles.paginationWrapper}>
-          <DataTable.Pagination
+          <Pagination
             page={1}
             numberOfPages={10}
             onPageChange={() => {}}
-            label="1-10 of 10"
-            showFastPaginationControls
             numberOfItemsPerPage={10}
-            // change items per page
-            selectPageDropdownLabel={'Characters per page'}
-            onItemsPerPageChange={() => {}}
-            numberOfItemsPerPageList={[10, 20, 50]}
           />
         </View>
-      </ScrollView>
+      </PageContainer>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#f6f5f3',
-    flex: 1,
-  },
   topBar: {
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
   clearFavsButton: {},
-  favBoxes: {flexDirection: 'row', columnGap: 20, marginVertical: 20},
-  favBox: {
-    backgroundColor: '#fff',
-    paddingVertical: 15,
-    paddingHorizontal: 10,
-    flex: 1,
-    borderRadius: 5,
-  },
   cardsContainer: {
     rowGap: 15,
   },
