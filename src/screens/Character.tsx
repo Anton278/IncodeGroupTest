@@ -1,16 +1,13 @@
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {View, ScrollView, StyleSheet} from 'react-native';
+import {View, StyleSheet} from 'react-native';
 import {Text, Button, IconButton} from 'react-native-paper';
+
+import PageContainer from '../components/PageContainer';
 
 function CharacterScreen({navigation}: any) {
   return (
     <SafeAreaView style={{flex: 1}}>
-      <ScrollView
-        style={styles.container}
-        contentContainerStyle={{
-          paddingVertical: 10,
-          paddingHorizontal: 10,
-        }}>
+      <PageContainer>
         <View style={styles.backBtnWrapper}>
           <Button
             mode="text"
@@ -39,16 +36,12 @@ function CharacterScreen({navigation}: any) {
           <Text variant="bodyMedium">Vehicles: -</Text>
           <Text variant="bodyMedium">Starships: -</Text>
         </View>
-      </ScrollView>
+      </PageContainer>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#f6f5f3',
-    flex: 1,
-  },
   characterName: {
     marginBottom: 10,
   },
