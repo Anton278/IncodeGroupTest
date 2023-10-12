@@ -1,6 +1,11 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
-import filmsService from '../../../services/films';
+import axios from 'axios';
+import {Film} from '../../../models/Film';
 
-export const getFilms = createAsyncThunk('films/getFilms', () => {
-  return filmsService.getFilms();
-});
+export const getFilm = createAsyncThunk(
+  'films/getFilm',
+  async (url: string) => {
+    const res = await axios.get<Film>(url);
+    return res.data;
+  },
+);

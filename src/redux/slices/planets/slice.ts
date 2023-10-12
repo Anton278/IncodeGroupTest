@@ -1,12 +1,9 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {InitState} from './types';
-import {getPlanets} from './thunks';
+import {getPlanet} from './thunks';
 
 const initialState: InitState = {
-  count: 0,
-  next: null,
-  previous: null,
-  results: [],
+  planets: [],
 };
 
 const planetsSlice = createSlice({
@@ -14,8 +11,8 @@ const planetsSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: builder => {
-    builder.addCase(getPlanets.fulfilled, (state, action) => {
-      return action.payload;
+    builder.addCase(getPlanet.fulfilled, (state, action) => {
+      state.planets.push(action.payload);
     });
   },
 });

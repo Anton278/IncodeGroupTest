@@ -1,12 +1,9 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {InitState} from './types';
-import {getFilms} from './thunks';
+import {getFilm} from './thunks';
 
 const initialState: InitState = {
-  count: 0,
-  next: null,
-  previous: null,
-  results: [],
+  films: [],
 };
 
 const filmsSlice = createSlice({
@@ -14,8 +11,8 @@ const filmsSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: builder => {
-    builder.addCase(getFilms.fulfilled, (state, action) => {
-      return action.payload;
+    builder.addCase(getFilm.fulfilled, (state, action) => {
+      state.films.push(action.payload);
     });
   },
 });

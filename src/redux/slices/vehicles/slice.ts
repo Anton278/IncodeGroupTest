@@ -1,12 +1,9 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {InitState} from './types';
-import {getVehicles} from './thunks';
+import {getVehicle} from './thunks';
 
 const initialState: InitState = {
-  count: 0,
-  next: null,
-  previous: null,
-  results: [],
+  vehicles: [],
 };
 
 const vehiclesSlice = createSlice({
@@ -14,8 +11,8 @@ const vehiclesSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: builder => {
-    builder.addCase(getVehicles.fulfilled, (state, action) => {
-      return action.payload;
+    builder.addCase(getVehicle.fulfilled, (state, action) => {
+      state.vehicles.push(action.payload);
     });
   },
 });

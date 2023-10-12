@@ -1,6 +1,11 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
-import planetsService from '../../../services/planets';
+import axios from 'axios';
+import {Planet} from '../../../models/Planet';
 
-export const getPlanets = createAsyncThunk('planets/getPlanets', () => {
-  return planetsService.getPlanets();
-});
+export const getPlanet = createAsyncThunk(
+  'planets/getPlanet',
+  async (url: string) => {
+    const res = await axios.get<Planet>(url);
+    return res.data;
+  },
+);

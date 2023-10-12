@@ -1,3 +1,5 @@
-import {GetStarshipsRes} from '../../../models/responses/getStarships';
+import {Starship} from '../../../models/Starship';
 
-export interface InitState extends GetStarshipsRes {}
+export interface InitState {
+  starships: Starship[];
+}

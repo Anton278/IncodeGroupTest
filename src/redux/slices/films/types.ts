@@ -1,3 +1,5 @@
-import {GetFilmsRes} from '../../../models/responses/getFilms';
+import {Film} from '../../../models/Film';
 
-export interface InitState extends GetFilmsRes {}
+export interface InitState {
+  films: Film[];
+}

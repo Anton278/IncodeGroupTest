@@ -1,6 +1,11 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
-import VehiclesService from '../../../services/Vehicles';
+import axios from 'axios';
+import {Vehicle} from '../../../models/Vehicles';
 
-export const getVehicles = createAsyncThunk('vehicles/getVehicles', () => {
-  return VehiclesService.getVehicles();
-});
+export const getVehicle = createAsyncThunk(
+  'vehicles/getVehicle',
+  async (url: string) => {
+    const res = await axios.get<Vehicle>(url);
+    return res.data;
+  },
+);

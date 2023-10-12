@@ -1,3 +1,5 @@
-import {GetVehiclesRes} from '../../../models/responses/getVehicles';
+import {Vehicle} from '../../../models/Vehicles';
 
-export interface InitState extends GetVehiclesRes {}
+export interface InitState {
+  vehicles: Vehicle[];
+}

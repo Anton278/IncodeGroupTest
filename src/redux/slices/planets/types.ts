@@ -1,3 +1,5 @@
-import {GetPlanetsRes} from '../../../models/responses/getPlanets';
+import {Planet} from '../../../models/Planet';
 
-export interface InitState extends GetPlanetsRes {}
+export interface InitState {
+  planets: Planet[];
+}

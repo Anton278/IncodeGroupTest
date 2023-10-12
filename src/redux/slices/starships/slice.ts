@@ -1,12 +1,9 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {InitState} from './types';
-import {getStarships} from './thunks';
+import {getStarship} from './thunks';
 
 const initialState: InitState = {
-  count: 0,
-  next: null,
-  previous: null,
-  results: [],
+  starships: [],
 };
 
 const starshipsSlice = createSlice({
@@ -14,8 +11,8 @@ const starshipsSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: builder => {
-    builder.addCase(getStarships.fulfilled, (state, action) => {
-      return action.payload;
+    builder.addCase(getStarship.fulfilled, (state, action) => {
+      state.starships.push(action.payload);
     });
   },
 });
