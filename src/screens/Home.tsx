@@ -12,6 +12,7 @@ import {useAppDispatch} from '../hooks/useAppDispatch';
 import {getCharacters} from '../redux/slices/characters/thunks';
 import {RequestStatus} from '../models/RequestStatus';
 import {getSpecie} from '../redux/slices/species/thunks';
+import {clearFavourites} from '../redux/slices/favourites/thunks';
 
 function HomeScreen() {
   const theme = useTheme();
@@ -27,6 +28,10 @@ function HomeScreen() {
   function onPageChange(num: number) {
     dispatch(getCharacters(num + 1));
     setPage(num);
+  }
+
+  function onClearFavouritesPress() {
+    dispatch(clearFavourites());
   }
 
   useEffect(() => {
@@ -65,7 +70,7 @@ function HomeScreen() {
           <Text variant="headlineMedium">Favourites</Text>
           <Button
             mode="outlined"
-            onPress={() => console.log('cleared favs')}
+            onPress={onClearFavouritesPress}
             style={styles.clearFavsButton}>
             Clear favourites
           </Button>

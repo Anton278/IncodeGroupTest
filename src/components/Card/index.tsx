@@ -1,5 +1,18 @@
 import {useNavigation} from '@react-navigation/native';
-import {Card as RNPCard, Text, Button, IconButton} from 'react-native-paper';
+import {
+  Card as RNPCard,
+  Text,
+  Button,
+  IconButton,
+  useTheme,
+} from 'react-native-paper';
+import {useAppSelector} from '../../hooks/useAppSelector';
+import {useEffect, useState} from 'react';
+import {useAppDispatch} from '../../hooks/useAppDispatch';
+import {
+  addFavourite,
+  removeFavourite,
+} from '../../redux/slices/favourites/thunks';
 
 type CardProps = {
   characterName: string;
@@ -18,6 +31,33 @@ function Card(props: CardProps) {
     characterUrl,
   } = props;
   const navigation = useNavigation();
+  const dispatch = useAppDispatch();
+  const theme = useTheme();
+  const favourites = useAppSelector(state => state.favourites.favourites);
+  const [isFavourite, setIsFavourite] = useState(false);
+
+  function onFavouritePress() {
+    const favourite = favourites.find(
+      favourite => favourite.id === characterUrl,
+    );
+
+    if (!favourite) {
+      dispatch(addFavourite({id: characterUrl, gender: characerGender}));
+    } else {
+      dispatch(removeFavourite(characterUrl));
+    }
+  }
+
+  useEffect(() => {
+    const favourite = favourites.find(
+      favourite => favourite.id === characterUrl,
+    );
+    if (favourite) {
+      setIsFavourite(true);
+    } else {
+      setIsFavourite(false);
+    }
+  }, [favourites]);
 
   return (
     <RNPCard style={{backgroundColor: '#fff'}}>
@@ -38,7 +78,12 @@ function Card(props: CardProps) {
           }}>
           Read more
         </Button>
-        <IconButton mode="contained" icon="heart" iconColor={'#fff'} />
+        <IconButton
+          mode="contained"
+          icon="heart"
+          iconColor={isFavourite ? theme.colors.error : '#fff'}
+          onPress={onFavouritePress}
+        />
       </RNPCard.Actions>
     </RNPCard>
   );

@@ -6,6 +6,7 @@ import filmsReducer from './slices/films/slice';
 import speciesReducer from './slices/species/slice';
 import vehiclesReducer from './slices/vehicles/slice';
 import starshipsReducer from './slices/starships/slice';
+import favouritesReducer from './slices/favourites/slice';
 
 export const store = configureStore({
   reducer: {
@@ -15,6 +16,7 @@ export const store = configureStore({
     species: speciesReducer,
     vehicles: vehiclesReducer,
     starships: starshipsReducer,
+    favourites: favouritesReducer,
   },
 });
 
