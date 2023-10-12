@@ -18,7 +18,7 @@ type CardProps = {
   characterName: string;
   characterBirthYear: string;
   characerGender: string;
-  characterSpecies: string[];
+  characterSpecie: string | undefined;
   characterUrl: string;
 };
 
@@ -27,7 +27,7 @@ function Card(props: CardProps) {
     characterName,
     characterBirthYear,
     characerGender,
-    characterSpecies,
+    characterSpecie,
     characterUrl,
   } = props;
   const navigation = useNavigation();
@@ -66,7 +66,7 @@ function Card(props: CardProps) {
         <Text variant="bodyMedium">Birth year: {characterBirthYear}</Text>
         <Text variant="bodyMedium">Gender: {characerGender}</Text>
         <Text variant="bodyMedium">
-          Species: {characterSpecies.length ? characterSpecies : '-'}
+          Species: {characterSpecie ? characterSpecie : '-'}
         </Text>
       </RNPCard.Content>
       <RNPCard.Actions>

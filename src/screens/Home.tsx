@@ -44,17 +44,17 @@ function HomeScreen() {
     }
 
     async function getSpecies() {
+      setIsLoadingSpecies(true);
+
       await Promise.all(
-        characters.map(character =>
-          character.species.map(characterSpecie => {
-            const isExist = species.find(
-              specie => specie.url === characterSpecie,
-            );
-            if (!isExist) {
-              dispatch(getSpecie(characterSpecie));
-            }
-          }),
-        ),
+        characters.map(character => {
+          const specie = species.find(
+            specie => specie.url === character.species[0],
+          );
+          if (!specie) {
+            return dispatch(getSpecie(character.species[0]));
+          }
+        }),
       );
 
       setIsLoadingSpecies(false);
@@ -85,20 +85,15 @@ function HomeScreen() {
         ) : (
           <View style={styles.cardsContainer}>
             {characters.map(character => {
-              const characterSpecies = character.species.map(
-                characterSpecie => {
-                  const specie = species.find(
-                    specie => specie.url === characterSpecie,
-                  );
-                  return specie ? specie.name : characterSpecie;
-                },
+              const characterSpecie = species.find(
+                specie => specie.url === character.species[0],
               );
               return (
                 <Card
                   characterName={character.name}
                   characterBirthYear={character.birth_year}
                   characerGender={character.gender}
-                  characterSpecies={characterSpecies}
+                  characterSpecie={characterSpecie?.name}
                   characterUrl={character.url}
                   key={character.url}
                 />
