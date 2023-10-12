@@ -5,13 +5,16 @@ import planetsReducer from './slices/planets/slice';
 import filmsReducer from './slices/films/slice';
 import speciesReducer from './slices/species/slice';
 import vehiclesReducer from './slices/species/slice';
+import starshipsReducer from './slices/starships/slice';
 
 export const store = configureStore({
   reducer: {
     characters: charactersReducer,
     planets: planetsReducer,
     films: filmsReducer,
+    species: speciesReducer,
     vehicles: vehiclesReducer,
+    starships: starshipsReducer,
   },
 });
 
