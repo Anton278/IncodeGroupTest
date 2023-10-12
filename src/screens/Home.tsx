@@ -1,13 +1,35 @@
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {View, StyleSheet} from 'react-native';
-import {Text, Button} from 'react-native-paper';
+import {Text, Button, useTheme} from 'react-native-paper';
+import {useEffect, useState} from 'react';
 
 import PageContainer from '../components/PageContainer';
 import Favourites from '../components/Favourites';
 import Card from '../components/Card';
 import Pagination from '../components/Pagination';
+import {useAppSelector} from '../hooks/useAppSelector';
+import {useAppDispatch} from '../hooks/useAppDispatch';
+import {getCharacters} from '../redux/slices/characters/thunks';
+import {RequestStatus} from '../models/RequestStatus';
 
 function HomeScreen() {
+  const theme = useTheme();
+  const dispatch = useAppDispatch();
+  const {count} = useAppSelector(state => state.characters);
+  const characters = useAppSelector(state => state.characters.results);
+  const charactersStatus = useAppSelector(state => state.characters.status);
+
+  const [page, setPage] = useState(0);
+
+  function onPageChange(num: number) {
+    dispatch(getCharacters(num + 1));
+    setPage(num);
+  }
+
+  useEffect(() => {
+    dispatch(getCharacters());
+  }, []);
+
   return (
     <SafeAreaView style={{flex: 1}}>
       <PageContainer>
@@ -21,42 +43,33 @@ function HomeScreen() {
           </Button>
         </View>
         <Favourites />
-        <View style={styles.cardsContainer}>
-          <Card
-            characterName="Luke Skywalker"
-            characterBirthYear="19 BBY"
-            characerGender="male"
-            characterSpecies={[]}
-            characterUrl=""
-          />
-          <Card
-            characterName="Luke Skywalker"
-            characterBirthYear="19 BBY"
-            characerGender="male"
-            characterSpecies={[]}
-            characterUrl=""
-          />
-          <Card
-            characterName="Luke Skywalker"
-            characterBirthYear="19 BBY"
-            characerGender="male"
-            characterSpecies={[]}
-            characterUrl=""
-          />
-          <Card
-            characterName="Luke Skywalker"
-            characterBirthYear="19 BBY"
-            characerGender="male"
-            characterSpecies={[]}
-            characterUrl=""
-          />
-        </View>
+        {charactersStatus === RequestStatus.Error ? (
+          <Text variant="bodyMedium" style={{color: theme.colors.error}}>
+            Failed to get characters
+          </Text>
+        ) : charactersStatus === RequestStatus.Loading ? (
+          <Text variant="bodyMedium">loading...</Text>
+        ) : (
+          <View style={styles.cardsContainer}>
+            {characters.map(character => (
+              <Card
+                characterName={character.name}
+                characterBirthYear={character.birth_year}
+                characerGender={character.gender}
+                characterSpecies={character.species}
+                characterUrl={character.url}
+                key={character.url}
+              />
+            ))}
+          </View>
+        )}
         <View style={styles.paginationWrapper}>
           <Pagination
-            page={1}
-            numberOfPages={10}
-            onPageChange={() => {}}
+            page={page}
+            numberOfPages={Math.ceil(count / 10)}
+            onPageChange={onPageChange}
             numberOfItemsPerPage={10}
+            totalItems={count}
           />
         </View>
       </PageContainer>
