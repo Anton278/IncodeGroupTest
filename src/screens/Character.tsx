@@ -3,8 +3,14 @@ import {View, StyleSheet} from 'react-native';
 import {Text, Button, IconButton} from 'react-native-paper';
 
 import PageContainer from '../components/PageContainer';
+import {useAppSelector} from '../hooks/useAppSelector';
 
-function CharacterScreen({navigation}: any) {
+function CharacterScreen({navigation, route}: any) {
+  const url = route.params.url;
+
+  const characters = useAppSelector(state => state.characters.results);
+  const character = characters.find(character => character.url === url);
+
   return (
     <SafeAreaView style={{flex: 1}}>
       <PageContainer>
@@ -18,18 +24,18 @@ function CharacterScreen({navigation}: any) {
         </View>
         <View style={styles.characterNameBar}>
           <Text variant="headlineMedium" style={styles.characterName}>
-            Luke Skywalker
+            {character?.name}
           </Text>
           <IconButton mode="contained" icon="heart" iconColor={'#fff'} />
         </View>
         <View style={styles.characterInfoWrapper}>
-          <Text variant="bodyMedium">Height: 172</Text>
-          <Text variant="bodyMedium">Mass: 77</Text>
-          <Text variant="bodyMedium">Hair color: blond</Text>
-          <Text variant="bodyMedium">Skin color: fair</Text>
-          <Text variant="bodyMedium">Eye color: blue</Text>
-          <Text variant="bodyMedium">Birth year: 19BBY</Text>
-          <Text variant="bodyMedium">Gender: male</Text>
+          <Text variant="bodyMedium">Height: {character?.height}</Text>
+          <Text variant="bodyMedium">Mass: {character?.mass}</Text>
+          <Text variant="bodyMedium">Hair color: {character?.hair_color}</Text>
+          <Text variant="bodyMedium">Skin color: {character?.skin_color}</Text>
+          <Text variant="bodyMedium">Eye color: {character?.eye_color}</Text>
+          <Text variant="bodyMedium">Birth year: {character?.birth_year}</Text>
+          <Text variant="bodyMedium">Gender: {character?.gender}</Text>
           <Text variant="bodyMedium">Homeworld: planet 1</Text>
           <Text variant="bodyMedium">Films: film 1, film 2, film 3</Text>
           <Text variant="bodyMedium">Species: -</Text>
