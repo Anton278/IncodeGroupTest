@@ -11,6 +11,7 @@ import {useAppSelector} from '../hooks/useAppSelector';
 import {useAppDispatch} from '../hooks/useAppDispatch';
 import {getCharacters} from '../redux/slices/characters/thunks';
 import {RequestStatus} from '../models/RequestStatus';
+import {getSpecie} from '../redux/slices/species/thunks';
 
 function HomeScreen() {
   const theme = useTheme();
@@ -18,6 +19,8 @@ function HomeScreen() {
   const {count} = useAppSelector(state => state.characters);
   const characters = useAppSelector(state => state.characters.results);
   const charactersStatus = useAppSelector(state => state.characters.status);
+  const species = useAppSelector(state => state.species.species);
+  const [isLoadingSpecies, setIsLoadingSpecies] = useState(true);
 
   const [page, setPage] = useState(0);
 
@@ -29,6 +32,31 @@ function HomeScreen() {
   useEffect(() => {
     dispatch(getCharacters());
   }, []);
+
+  useEffect(() => {
+    if (charactersStatus !== RequestStatus.Success) {
+      return;
+    }
+
+    async function getSpecies() {
+      await Promise.all(
+        characters.map(character =>
+          character.species.map(characterSpecie => {
+            const isExist = species.find(
+              specie => specie.url === characterSpecie,
+            );
+            if (!isExist) {
+              dispatch(getSpecie(characterSpecie));
+            }
+          }),
+        ),
+      );
+
+      setIsLoadingSpecies(false);
+    }
+
+    getSpecies();
+  }, [characters, charactersStatus]);
 
   return (
     <SafeAreaView style={{flex: 1}}>
@@ -47,20 +75,30 @@ function HomeScreen() {
           <Text variant="bodyMedium" style={{color: theme.colors.error}}>
             Failed to get characters
           </Text>
-        ) : charactersStatus === RequestStatus.Loading ? (
+        ) : charactersStatus === RequestStatus.Loading || isLoadingSpecies ? (
           <Text variant="bodyMedium">loading...</Text>
         ) : (
           <View style={styles.cardsContainer}>
-            {characters.map(character => (
-              <Card
-                characterName={character.name}
-                characterBirthYear={character.birth_year}
-                characerGender={character.gender}
-                characterSpecies={character.species}
-                characterUrl={character.url}
-                key={character.url}
-              />
-            ))}
+            {characters.map(character => {
+              const characterSpecies = character.species.map(
+                characterSpecie => {
+                  const specie = species.find(
+                    specie => specie.url === characterSpecie,
+                  );
+                  return specie ? specie.name : characterSpecie;
+                },
+              );
+              return (
+                <Card
+                  characterName={character.name}
+                  characterBirthYear={character.birth_year}
+                  characerGender={character.gender}
+                  characterSpecies={characterSpecies}
+                  characterUrl={character.url}
+                  key={character.url}
+                />
+              );
+            })}
           </View>
         )}
         <View style={styles.paginationWrapper}>

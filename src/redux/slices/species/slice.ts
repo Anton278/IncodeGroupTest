@@ -1,12 +1,9 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {InitState} from './types';
-import {getSpecies} from './thunks';
+import {getSpecie} from './thunks';
 
 const initialState: InitState = {
-  count: 0,
-  next: null,
-  previous: null,
-  results: [],
+  species: [],
 };
 
 const speciesSlice = createSlice({
@@ -14,8 +11,8 @@ const speciesSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: builder => {
-    builder.addCase(getSpecies.fulfilled, (state, action) => {
-      return action.payload;
+    builder.addCase(getSpecie.fulfilled, (state, action) => {
+      state.species.push(action.payload);
     });
   },
 });

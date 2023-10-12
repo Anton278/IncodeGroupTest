@@ -1,3 +1,5 @@
-import {GetSpeciesRes} from '../../../models/responses/getSpecies';
+import {Specie} from '../../../models/Specie';
 
-export interface InitState extends GetSpeciesRes {}
+export interface InitState {
+  species: Specie[];
+}

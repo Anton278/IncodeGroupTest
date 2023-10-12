@@ -1,6 +1,12 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
-import speciesService from '../../../services/species';
+import axios from 'axios';
 
-export const getSpecies = createAsyncThunk('species/getSpecies', () => {
-  return speciesService.getSpecies();
-});
+import {Specie} from '../../../models/Specie';
+
+export const getSpecie = createAsyncThunk(
+  'species/getSpecie',
+  async (url: string) => {
+    const res = await axios.get<Specie>(url);
+    return res.data;
+  },
+);
