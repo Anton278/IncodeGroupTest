@@ -9,7 +9,8 @@ function PageContainer({children}: PageContainerProps) {
     <ScrollView
       style={{backgroundColor: '#f6f5f3', flex: 1}}
       contentContainerStyle={{
-        padding: 10,
+        paddingVertical: 20,
+        paddingHorizontal: 10,
       }}>
       {children}
     </ScrollView>
