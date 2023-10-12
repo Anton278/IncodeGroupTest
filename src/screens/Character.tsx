@@ -1,6 +1,6 @@
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {View, StyleSheet} from 'react-native';
-import {Text, Button, IconButton} from 'react-native-paper';
+import {Text, Button, IconButton, useTheme} from 'react-native-paper';
 import {useEffect, useState} from 'react';
 
 import PageContainer from '../components/PageContainer';
@@ -10,13 +10,17 @@ import {getPlanet} from '../redux/slices/planets/thunks';
 import {getFilm} from '../redux/slices/films/thunks';
 import {getVehicle} from '../redux/slices/vehicles/thunks';
 import {getStarship} from '../redux/slices/starships/thunks';
+import {addFavourite, removeFavourite} from '../redux/slices/favourites/thunks';
 
 function CharacterScreen({navigation, route}: any) {
   const url = route.params.url;
   const dispatch = useAppDispatch();
+  const theme = useTheme();
 
   const characters = useAppSelector(state => state.characters.results);
   const character = characters.find(character => character.url === url);
+  const favourites = useAppSelector(state => state.favourites.favourites);
+  const [isFavourite, setIsFavourite] = useState(false);
 
   const [isLoading, setIsLoading] = useState(true);
 
@@ -111,6 +115,29 @@ function CharacterScreen({navigation, route}: any) {
     return unsubscribe;
   }, [navigation]);
 
+  function onFavouritePress() {
+    if (!character) {
+      return navigation.navigate('Home');
+    }
+
+    const favourite = favourites.find(favourite => favourite.id === url);
+
+    if (!favourite) {
+      dispatch(addFavourite({id: url, gender: character.gender}));
+    } else {
+      dispatch(removeFavourite(url));
+    }
+  }
+
+  useEffect(() => {
+    const favourite = favourites.find(favourite => favourite.id === url);
+    if (favourite) {
+      setIsFavourite(true);
+    } else {
+      setIsFavourite(false);
+    }
+  }, [favourites]);
+
   return (
     <SafeAreaView style={{flex: 1}}>
       <PageContainer>
@@ -130,7 +157,12 @@ function CharacterScreen({navigation, route}: any) {
               <Text variant="headlineMedium" style={styles.characterName}>
                 {character?.name}
               </Text>
-              <IconButton mode="contained" icon="heart" iconColor={'#fff'} />
+              <IconButton
+                mode="contained"
+                icon="heart"
+                iconColor={isFavourite ? theme.colors.error : '#fff'}
+                onPress={onFavouritePress}
+              />
             </View>
             <View style={styles.characterInfoWrapper}>
               <Text variant="bodyMedium">Height: {character?.height}</Text>
