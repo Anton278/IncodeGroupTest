@@ -17,9 +17,9 @@ import {clearFavourites} from '../redux/slices/favourites/thunks';
 function HomeScreen() {
   const theme = useTheme();
   const dispatch = useAppDispatch();
-  const {count} = useAppSelector(state => state.characters);
   const characters = useAppSelector(state => state.characters.results);
   const charactersStatus = useAppSelector(state => state.characters.status);
+  const charactersTotalCount = useAppSelector(state => state.characters.count);
   const species = useAppSelector(state => state.species.species);
   const [isLoadingSpecies, setIsLoadingSpecies] = useState(true);
 
@@ -109,10 +109,10 @@ function HomeScreen() {
         <View style={styles.paginationWrapper}>
           <Pagination
             page={page}
-            numberOfPages={Math.ceil(count / 10)}
+            numberOfPages={Math.ceil(charactersTotalCount / 10)}
             onPageChange={onPageChange}
             numberOfItemsPerPage={10}
-            totalItems={count}
+            totalItems={charactersTotalCount}
           />
         </View>
       </PageContainer>
