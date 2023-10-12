@@ -1,6 +1,6 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
-import SpeciesService from '../../../services/Species';
+import speciesService from '../../../services/species';
 
 export const getSpecies = createAsyncThunk('species/getSpecies', () => {
-  return SpeciesService.getSpecies();
+  return speciesService.getSpecies();
 });
